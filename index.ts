@@ -51,7 +51,14 @@ app.post('/', async (req: Request, res: Response): Promise<void> => {
     res.status(500).send((err as Error).message);
   }
 });
-
+app.get('/messages', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const messages = await Message.find().sort({ timestamp: -1}).limit(10)
+        res.json(messages)
+    } catch (err) {
+        res.status(500).send((err as Error).message)
+    }
+})
 // GET route to fetch a message by custom id
 app.get('/message', async (req: Request, res: Response): Promise<void> => {
   try {
